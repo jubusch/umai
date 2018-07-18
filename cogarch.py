@@ -1,4 +1,5 @@
-import ccm   
+import sys
+sys.path.insert(0, 'ccmsuite') 
 import global_variables   
 log=ccm.log()   
 
@@ -39,7 +40,7 @@ class MyAgent(ACTR):
     DMBuffer=Buffer()  
     # latency controls the relationship between activation and recall  
     # activation must be above threshold - can be set to none               
-    DM=Memory(DMBuffer,latency=.,threshold=0.5)      
+    DM=Memory(DMBuffer,latency=0.05,threshold=0.5)      
                                                      
     # turn on for DM subsymbolic processing      
     dm_n=DMNoise(DM,noise=0.0,baseNoise=0.0)   
@@ -48,12 +49,12 @@ class MyAgent(ACTR):
 
 
     # turn on spreading activation for DM from focus
-    #dm_spread = DMSpreading(DM, focus)
+    dm_spread = DMSpreading(DM, focus)
     # set strength of activation for buffers
-    #dm_spread.strength = 2
+    dm_spread.strength = 2
     # set weight to adjust for how many slots in the buffer
     # usually this is strength divided by number of slots
-    #dm_spread.weight[focus] = .5
+    dm_spread.weight[focus] = .5
 
     
 
@@ -115,6 +116,8 @@ class MyAgent(ACTR):
         if len(action_stream) == len(fired_actions) :
             focus.set('stop')
         else : 
+            DM.add('action_0:?action')      
+            #DMbuffer.clear()
             fired_actions[action_stream[len(fired_actions)]]= str(len(fired_actions))
             fired_actions['dummy_0'] = action_stream[len(fired_actions)]
             focus.set('action_' + str(len(fired_actions)))
@@ -167,6 +170,7 @@ class MyAgent(ACTR):
         if len(action_stream) == len(fired_actions) :
             focus.set('stop')
         else : 
+            DM.add('action_1:?action')      
             fired_actions[action_stream[len(fired_actions)]]= str(len(fired_actions))
             fired_actions['dummy_1'] = 'dummyElement'
             focus.set('action_' + str(len(fired_actions)))
