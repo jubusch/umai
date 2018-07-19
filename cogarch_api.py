@@ -1,10 +1,12 @@
 from flask import Flask,request,abort,jsonify	
 from flask_restplus import Resource, Api,fields
+from flask_cors import CORS
 import global_variables
 import json 
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 settings_descriptor = api.model('Settings',{'noise' : fields.Float('value'),'latency' : fields.Float('value'),'threshold' : fields.Float('value'),'baseNoise' : fields.Float('value'),'decay' : fields.Float('value')})
 
@@ -42,10 +44,10 @@ class getActivations(Resource):
 		#filter for latest datetime
 		#get statements after datetime
 		#set global_variables.action_stream
-		execfile("file_generator.py")
+		execfile("file_generator_template.py")
 		#execfile("simulation.py")
 		import simulation 
-		simulation.subway.run()
+		simulation.umaiEnvironment.run()
 		
 		return jsonify(global_variables.chunk_activations)
 

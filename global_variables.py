@@ -6,6 +6,5 @@ threshold=0.5
 noise=0.0
 baseNoise=0.0
 decay=0.5
-limit=None
 chunk_activations = {}
 fired_actions = {}

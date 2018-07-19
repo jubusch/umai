@@ -25,9 +25,9 @@ class MyEnvironment(ccm.Model):
 class MyAgent(ACTR):
 
     #array represents all new actions 
-    new_actions = ['place_street_road','increase_workforce','sell_images','won_level', 'place_market']
+    new_actions = global_variables.new_actions
     #actions_stream comes in via rest
-    action_stream = ['place_street_road','increase_workforce','sell_images','won_level','place_street_road', 'place_market','increase_workforce']
+    action_stream = global_variables.action_stream
     #store all fired actions
     fired_actions = {}
     #store chunk activations after every action 
@@ -44,12 +44,11 @@ class MyAgent(ACTR):
     DMBuffer=Buffer()  
     # latency controls the relationship between activation and recall  
     # activation must be above threshold - can be set to none               
-    DM=Memory(DMBuffer,latency=0.05,threshold=0.5)      
-                                                     
+    DM=Memory(DMBuffer,global_variables.latency,global_variables.threshold)                                                          
     # turn on for DM subsymbolic processing      
-    dm_n=DMNoise(DM,noise=0.0,baseNoise=0.0)   
+    dm_n=DMNoise(DM,global_variables.noise,global_variables.baseNoise)   
     # turn on for DM subsymbolic processing
-    dm_bl=DMBaseLevel(DM,decay=0.5,limit=None)       
+    dm_bl=DMBaseLevel(DM,global_variables.decay,global_variables.limit)       
 
 
     # turn on spreading activation for DM from focus
