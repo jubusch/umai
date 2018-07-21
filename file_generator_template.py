@@ -24,10 +24,9 @@ action_tpl = """
         actions_temp = [str(i).split(':')[0] for i in list_of_chunks]
         #chunk_activations[str(len(fired_actions)-1)]={str(chunk[actions_temp[i]]) : str(round(self.DM.get_activation(chunk), 3)) for i,chunk in enumerate(list_of_chunks)}
         self.print_activations()
-        chunk_activations[str(len(fired_actions)+countHelper)] = {}
         for i,chunk in enumerate(list_of_chunks):
             #print(i,chunk, actions_temp[i], chunk[actions_temp[i]], str(chunk[actions_temp[i]]))
-            chunk_activations[str(len(fired_actions)+countHelper)][str(chunk[actions_temp[i]])] = str(round(self.DM.get_activation(chunk), 3))
+            chunk_activations[str(len(fired_actions)+countHelper)][str(chunk[actions_temp[i]])] = round(self.DM.get_activation(chunk), 3)
         print chunk_activations
 
         

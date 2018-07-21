@@ -2,6 +2,7 @@ from flask import Flask,request,abort,jsonify
 from flask_restplus import Resource, Api,fields
 from flask_cors import CORS
 import global_variables
+import os
 import json 
 
 app = Flask(__name__)
@@ -46,8 +47,15 @@ class getActivations(Resource):
 		#set global_variables.action_stream
 		execfile("file_generator_template.py")
 		#execfile("simulation.py")
-		import simulation 
+		try :
+			import simulation 
+		except ImportError:
+    			pass
+		reload(simulation)
+
 		simulation.umaiEnvironment.run()
+		# os.remove("simulation.py")
+		# os.remove("simulation.pyc")
 		
 		return jsonify(global_variables.chunk_activations)
 

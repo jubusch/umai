@@ -18,8 +18,12 @@ class MyAgent(ACTR):
     #store fired actions (if fired multiple times archive instances as dummyobjects)
     fired_actions = {}
 
-    #store chunk activations after every action 
+    #initialize all possible chunk activations to zero
     chunk_activations = {}
+    for i,x in enumerate(action_stream) :
+        chunk_activations[str(i)] = {}
+        for k in new_actions : 
+                chunk_activations[str(i)][k] = 0 
 
     focus=Buffer()
 
@@ -33,10 +37,10 @@ class MyAgent(ACTR):
     # turn on for DM subsymbolic processing
     dm_bl=DMBaseLevel(DM,decay=${decay},limit=None) 
 
+
     def init():
-        focus.set('action_0')      
-    
-    
+        focus.set('action_0') 
+        
     
     ${actions_methods}
 
@@ -55,7 +59,7 @@ class MyAgent(ACTR):
         print list_of_chunks
         #print self.DM.get_activation()
         for i,chunk in enumerate(list_of_chunks):
-                #chunk_activations[str(chunk[actions[i]])]= str(round(self.DM.get_activation(chunk), 3))
+                #chunk_activations[str(chunk[actions[i]])]= round(self.DM.get_activation(chunk), 3)
                 print chunk[actions[i]], "-->", \
                 round(self.DM.get_activation(chunk), 3)
         print "\n"
